@@ -8,13 +8,16 @@ const urlsFilePath = './urls.txt';
 const research = config.spice;
 const keyw = 'Arecanut(Rs./100 nuts)';
 
-fs.writeFileSync(config.folderpath+research+'output.txt', '');
-fs.writeFileSync(config.folderpath+research+'failed.txt', '');
-console.log(config.folderpath+research+'output.txt');
+// fs.writeFileSync(config.folderpath+research+'output.txt', '');
+// fs.writeFileSync(config.folderpath+research+'failed.txt', '');
+
 // Create the output folder if it doesn't exist
 if (!fs.existsSync(config.folderpath)) {
   fs.mkdirSync(config.folderpath);
 }
+
+fs.writeFileSync(config.folderpath+research+'output.txt', '');
+fs.writeFileSync(config.folderpath+research+'failed.txt', '');
 
 (async function () {
   await loopUrls(urlsFilePath, config.folderpath+config.spice+'failed.txt');
@@ -31,9 +34,11 @@ async function loopUrls(urlsFilePath, fileOutput) {
         const html = response.data;
         const $ = cheerio.load(html);
 
-        // Find the table under the heading "Arecanut(Rs./100 nuts)"
-        const heading = $('h3').filter((index, element) => $(element).text() === keyw);
-        const table = heading.next('table');
+        // Find all tables on the page
+        const tables = $('table');
+
+        // Pick the first table
+        const table = $(tables[config.tableIndex]);
 
         // Get the last row of the table
         const rows = table.find('tr');
@@ -43,15 +48,24 @@ async function loopUrls(urlsFilePath, fileOutput) {
         const rowData = lastRow.find('td').filter((index) => index !== 0) // Remove second column data (index 1)
           .map((index, element) => $(element).text().trim()).get();
 
-        // Extract the date from the URL
-        const urlObject = new URL(url);
-        const dateMatch = urlObject.pathname.match(/\/(\d{2}\.\d{2}\.\d{4})/);
-        const date = dateMatch ? dateMatch[1] : 'Fucked';
+        // // Extract the date from the URL
+        // const urlObject = new URL(url);
+        // const dateMatch = urlObject.pathname.match(/\/(\d{2}\.\d{2}\.\d{4})/);
+        // const date = dateMatch ? dateMatch[1] : 'Fucked';
 
-        const dateParts = date.split('.');
-        const modifiedDate = `${dateParts[1]}-${dateParts[0]}-${dateParts[2]}`;
+           // Find the exact <p> element containing the date
+        const dateElement = $('p').filter((index, element) => {
+          const text = $(element).text();
+          return text.includes('Date of collection :');
+        });
+        const dateText = dateElement.text();
+        const dateMatch = dateText.match(/(\d{2})\.(\d{2})\.(\d{4})/);
+        const date = dateMatch ? `${dateMatch[2]}-${dateMatch[1]}-${dateMatch[3]}` : 'N/A';
 
-        rowData.unshift(dateParts[1]);
+        const dateParts = date.split('-');
+        const modifiedDate = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`;
+
+        rowData.unshift(dateParts[0]);
         rowData.unshift(modifiedDate.replace(/\./g, '-'));
 
         // Prepare the text to be appended to the file
