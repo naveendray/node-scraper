@@ -5,22 +5,17 @@ const fs = require('fs');
 const config = require('./config');
 
 const urlsFilePath = './urls.txt';
-const research = config.spice;
-const keyw = 'Arecanut(Rs./100 nuts)';
-
-// fs.writeFileSync(config.folderpath+research+'output.txt', '');
-// fs.writeFileSync(config.folderpath+research+'failed.txt', '');
 
 // Create the output folder if it doesn't exist
 if (!fs.existsSync(config.folderpath)) {
   fs.mkdirSync(config.folderpath);
 }
 
-fs.writeFileSync(config.folderpath+research+'output.txt', '');
-fs.writeFileSync(config.folderpath+research+'failed.txt', '');
+fs.writeFileSync(config.folderpath + config.spice + 'output.txt', '');
+fs.writeFileSync(config.folderpath + config.spice + 'failed.txt', '');
 
 (async function () {
-  await loopUrls(urlsFilePath, config.folderpath+config.spice+'failed.txt');
+  await loopUrls(urlsFilePath, config.folderpath + config.spice + 'failed.txt');
 })();
 
 // Loop through the URLs
@@ -48,19 +43,16 @@ async function loopUrls(urlsFilePath, fileOutput) {
         const rowData = lastRow.find('td').filter((index) => index !== 0) // Remove second column data (index 1)
           .map((index, element) => $(element).text().trim()).get();
 
-        // // Extract the date from the URL
-        // const urlObject = new URL(url);
-        // const dateMatch = urlObject.pathname.match(/\/(\d{2}\.\d{2}\.\d{4})/);
-        // const date = dateMatch ? dateMatch[1] : 'Fucked';
-
-           // Find the exact <p> element containing the date
+        // Find the exact <p> element containing the date
         const dateElement = $('p').filter((index, element) => {
           const text = $(element).text();
-          return text.includes('Date of collection :');
+          return /\d{2}\.\d{2}\.\d{4}/.test(text); // Check if the text contains the date pattern
         });
+
         const dateText = dateElement.text();
         const dateMatch = dateText.match(/(\d{2})\.(\d{2})\.(\d{4})/);
         const date = dateMatch ? `${dateMatch[2]}-${dateMatch[1]}-${dateMatch[3]}` : 'N/A';
+
 
         const dateParts = date.split('-');
         const modifiedDate = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`;
@@ -68,12 +60,14 @@ async function loopUrls(urlsFilePath, fileOutput) {
         rowData.unshift(dateParts[0]);
         rowData.unshift(modifiedDate.replace(/\./g, '-'));
 
+        rowData.push(url);
+
         // Prepare the text to be appended to the file
         const rowString = rowData.join('\t');
         const text = `${rowString}\n`;
 
         // Generate the output file path based on the URL
-        const fileName = research+'output.txt';
+        const fileName = config.spice + 'output.txt';
         const filePath = `${config.folderpath}/${fileName}`;
 
         // Append the text to the file
