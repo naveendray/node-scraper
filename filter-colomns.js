@@ -1,7 +1,8 @@
 const fs = require('fs');
+const config = require('./config');
 
 // Read the data from output.txt
-fs.readFile('collected.txt', 'utf8', (err, data) => {
+fs.readFile(config.folderpath+config.spice+'collected.txt', 'utf8', (err, data) => {
   if (err) {
     console.error('Error reading the file:', err);
     return;
@@ -27,7 +28,7 @@ fs.readFile('collected.txt', 'utf8', (err, data) => {
   const modifiedData = modifiedLines.join('\n');
 
   // Write the modified data to a new file called modified.txt
-  fs.writeFile('columns-removed.txt', modifiedData, 'utf8', (err) => {
+  fs.writeFile(config.folderpath+config.spice+'columns-removed.txt', modifiedData, 'utf8', (err) => {
     if (err) {
       console.error('Error writing the file:', err);
       return;

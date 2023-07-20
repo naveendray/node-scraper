@@ -1,7 +1,9 @@
 const fs = require('fs');
+const config = require('./config');
+
 
 // Read the data from output.txt
-fs.readFile('output.txt', 'utf8', (err, data) => {
+fs.readFile(config.folderpath+config.spice+'output.txt', 'utf8', (err, data) => {
   if (err) {
     console.error('Error reading the file:', err);
     return;
@@ -31,11 +33,11 @@ fs.readFile('output.txt', 'utf8', (err, data) => {
   const collectedData = collectedRecords.join('\n');
 
   // Write the collected data to a new file called collected.txt
-  fs.writeFile('collected.txt', collectedData, 'utf8', (err) => {
+  fs.writeFile(config.folderpath+config.spice+'collected.txt', collectedData, 'utf8', (err) => {
     if (err) {
       console.error('Error writing the file:', err);
       return;
     }
-    console.log('Collected records saved to "collected.txt"');
+    console.log('Collected records saved to '+config.spice+'collected.txt');
   });
 });

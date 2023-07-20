@@ -1,7 +1,8 @@
 const fs = require('fs');
+const config = require('./config');
 
 // Read the data from the file
-fs.readFile('columns-removed.txt', 'utf8', (err, data) => {
+fs.readFile(config.folderpath+config.spice+'columns-removed.txt', 'utf8', (err, data) => {
   if (err) {
     console.error('Error reading the file:', err);
     return;
@@ -31,7 +32,7 @@ fs.readFile('columns-removed.txt', 'utf8', (err, data) => {
   const years = [...new Set(lines.map(line => line.split('\t')[0].split('-')[2]))];
 
   // Create the column headings
-  const columnHeadings = ['', ...years];
+  const columnHeadings = ['Month', ...years];
 
   // Create the grid data
   const gridData = [columnHeadings.join('\t')];
@@ -49,7 +50,7 @@ fs.readFile('columns-removed.txt', 'utf8', (err, data) => {
   }
 
   // Write the grid data to the file
-  fs.writeFile('grid.txt', gridData.join('\n'), 'utf8', err => {
+  fs.writeFile(config.folderpath+config.spice+'grid.txt', gridData.join('\n'), 'utf8', err => {
     if (err) {
       console.error('Error writing to file:', err);
     } else {

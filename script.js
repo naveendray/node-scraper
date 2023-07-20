@@ -2,21 +2,22 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { URL } = require('url');
 const fs = require('fs');
+const config = require('./config');
 
 const urlsFilePath = './urls.txt';
-const outputFolderPath = './data';
-const research = "Arecanut";
+const research = config.spice;
 const keyw = 'Arecanut(Rs./100 nuts)';
 
-fs.writeFileSync('./data/'+research+'output.txt', '');
-fs.writeFileSync('./data/'+research+'failed.txt', '');
+fs.writeFileSync(config.folderpath+research+'output.txt', '');
+fs.writeFileSync(config.folderpath+research+'failed.txt', '');
+console.log(config.folderpath+research+'output.txt');
 // Create the output folder if it doesn't exist
-if (!fs.existsSync(outputFolderPath)) {
-  fs.mkdirSync(outputFolderPath);
+if (!fs.existsSync(config.folderpath)) {
+  fs.mkdirSync(config.folderpath);
 }
 
 (async function () {
-  await loopUrls(urlsFilePath, './failed.txt');
+  await loopUrls(urlsFilePath, config.folderpath+config.spice+'failed.txt');
 })();
 
 // Loop through the URLs
@@ -59,7 +60,7 @@ async function loopUrls(urlsFilePath, fileOutput) {
 
         // Generate the output file path based on the URL
         const fileName = research+'output.txt';
-        const filePath = `${outputFolderPath}/${fileName}`;
+        const filePath = `${config.folderpath}/${fileName}`;
 
         // Append the text to the file
         fs.appendFileSync(filePath, text);
