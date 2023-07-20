@@ -16,7 +16,7 @@ fs.readFile(config.folderpath+config.spice+'collected.txt', 'utf8', (err, data) 
     const columns = line.split('\t');
 
     // Indices of the columns you want to keep
-    const keepColumns = [0, 1, 2];
+    const keepColumns = config.tableColumns;
 
     // Filter out the unwanted columns
     const newColumns = columns.filter((col, index) => keepColumns.includes(index));
