@@ -2,20 +2,25 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { URL } = require('url');
 const fs = require('fs');
-const config = require('./config');
 
 const urlsFilePath = './urls.txt';
 
+// Load the configuration file
+const configData = fs.readFileSync('config.json');
+const config = JSON.parse(configData);
+
+const currentConfig = config.globle.currentConfiguration;
+
 // Create the output folder if it doesn't exist
-if (!fs.existsSync(config.folderpath)) {
-  fs.mkdirSync(config.folderpath);
+if (!fs.existsSync(config[currentConfig].folderpath)) {
+  fs.mkdirSync(config[currentConfig].folderpath);
 }
 
-fs.writeFileSync(config.folderpath + config.spice + 'output.txt', '');
-fs.writeFileSync(config.folderpath + config.spice + 'failed.txt', '');
+fs.writeFileSync(config[currentConfig].folderpath + config[currentConfig].spice + 'output.txt', '');
+fs.writeFileSync(config[currentConfig].folderpath + config[currentConfig].spice + 'failed.txt', '');
 
 (async function () {
-  await loopUrls(urlsFilePath, config.folderpath + config.spice + 'failed.txt');
+  await loopUrls(urlsFilePath, config[currentConfig].folderpath + config[currentConfig].spice + 'failed.txt');
 })();
 
 // Loop through the URLs
@@ -33,7 +38,7 @@ async function loopUrls(urlsFilePath, fileOutput) {
         const tables = $('table');
 
         // Pick the first table
-        const table = $(tables[config.tableIndex]);
+        const table = $(tables[config[currentConfig].tableIndex]);
 
         // Get the last row of the table
         const rows = table.find('tr');
@@ -67,8 +72,8 @@ async function loopUrls(urlsFilePath, fileOutput) {
         const text = `${rowString}\n`;
 
         // Generate the output file path based on the URL
-        const fileName = config.spice + 'output.txt';
-        const filePath = `${config.folderpath}/${fileName}`;
+        const fileName = config[currentConfig].spice + 'output.txt';
+        const filePath = `${config[currentConfig].folderpath}/${fileName}`;
 
         // Append the text to the file
         fs.appendFileSync(filePath, text);

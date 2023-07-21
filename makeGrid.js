@@ -1,8 +1,12 @@
 const fs = require('fs');
-const config = require('./config');
+// Load the configuration file
+const configData = fs.readFileSync('config.json');
+const config = JSON.parse(configData);
+
+const currentConfig = config.globle.currentConfiguration;
 
 // Read the data from the file
-fs.readFile(config.folderpath+config.spice+'columns-removed.txt', 'utf8', (err, data) => {
+fs.readFile(config[currentConfig].folderpath+config[currentConfig].spice+'columns-removed.txt', 'utf8', (err, data) => {
   if (err) {
     console.error('Error reading the file:', err);
     return;
@@ -32,7 +36,7 @@ fs.readFile(config.folderpath+config.spice+'columns-removed.txt', 'utf8', (err, 
   const years = [...new Set(lines.map(line => line.split('\t')[0].split('-')[2]))];
 
   // Create the column headings
-  const columnHeadings = ['Month', ...years];
+  const columnHeadings = ['', ...years];
 
   // Create the grid data
   const gridData = [columnHeadings.join('\t')];
@@ -50,7 +54,7 @@ fs.readFile(config.folderpath+config.spice+'columns-removed.txt', 'utf8', (err, 
   }
 
   // Write the grid data to the file
-  fs.writeFile(config.folderpath+config.spice+'grid.txt', gridData.join('\n'), 'utf8', err => {
+  fs.writeFile(config[currentConfig].folderpath+config[currentConfig].spice+'grid.txt', gridData.join('\n'), 'utf8', err => {
     if (err) {
       console.error('Error writing to file:', err);
     } else {

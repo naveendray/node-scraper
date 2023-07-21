@@ -1,9 +1,14 @@
 const fs = require('fs');
-const config = require('./config');
+// const config = require('./config');
 
+// Load the configuration file
+const configData = fs.readFileSync('config.json');
+const config = JSON.parse(configData);
+
+const currentConfig = config.globle.currentConfiguration;
 
 // Read the data from output.txt
-fs.readFile(config.folderpath+config.spice+'output.txt', 'utf8', (err, data) => {
+fs.readFile(config[currentConfig].folderpath+config[currentConfig].spice+'output.txt', 'utf8', (err, data) => {
   if (err) {
     console.error('Error reading the file:', err);
     return;
@@ -33,11 +38,11 @@ fs.readFile(config.folderpath+config.spice+'output.txt', 'utf8', (err, data) => 
   const collectedData = collectedRecords.join('\n');
 
   // Write the collected data to a new file called collected.txt
-  fs.writeFile(config.folderpath+config.spice+'collected.txt', collectedData, 'utf8', (err) => {
+  fs.writeFile(config[currentConfig].folderpath+config[currentConfig].spice+'collected.txt', collectedData, 'utf8', (err) => {
     if (err) {
       console.error('Error writing the file:', err);
       return;
     }
-    console.log('Collected records saved to '+config.spice+'collected.txt');
+    console.log('Collected records saved to '+config[currentConfig].spice+'collected.txt');
   });
 });
