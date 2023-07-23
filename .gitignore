@@ -132,11 +132,4 @@ dist
 # custom
 
 /data
-collected.txt
-columns-removed.txt
-filtered.txt
-grid.txt
-output.txt
-sorted.txt
-urls.txt
-failed.txt
+/downloaded
