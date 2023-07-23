@@ -1,0 +1,23 @@
+# Ignore version control folders and files
+.git
+.gitignore
+
+# Ignore node_modules folder if you have one
+node_modules
+
+# Ignore any development-specific files
+*.log
+*.lock
+.DS_Store
+
+# Ignore any files related to the host system or development environment
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Ignore any editor-specific files or folders
+.vscode
+
+# Ignore any files generated during the build process
+npm-debug.log
+yarn-error.log

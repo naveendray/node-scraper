@@ -1,6 +1,7 @@
 {
+
   "globle": {
-    "currentConfiguration": "pepper"
+    "currentConfiguration": "turmeric"
   },
 
   "pepper": {
@@ -17,10 +18,88 @@
     "tableColumns": [0,1,2]
   },
 
+  "arecanut-fresh": {
+    "folderpath": "./data/Arecanut-freash/",
+    "spice": "Arecanut-fresh",
+    "tableIndex": 8,
+    "tableColumns": [0,1,4]
+  },
+
   "clove": {
     "folderpath": "./data/Clove/",
     "spice": "Clove",
     "tableIndex": 1,
     "tableColumns": [0,1,2]
+  },
+
+  "cofee": {
+    "folderpath": "./data/Cofee/",
+    "spice": "Cofee",
+    "tableIndex": 2,
+    "tableColumns": [0,1,2]
+  },
+
+  "cocoa": {
+    "folderpath": "./data/Cocoa/",
+    "spice": "Cocoa",
+    "tableIndex": 3,
+    "tableColumns": [0,1,2]
+  },
+
+  "cardamom": {
+    "folderpath": "./data/Cardamom/",
+    "spice": "Cardamom",
+    "tableIndex": 4,
+    "tableColumns": [0,1,2]
+  },
+
+  "nutmeg": {
+    "folderpath": "./data/Nutmeg/",
+    "spice": "Nutmeg",
+    "tableIndex": 5,
+    "tableColumns": [0,1,2]
+  },
+
+  "mace-nutmeg": {
+    "folderpath": "./data/Mace-Nutmeg/",
+    "spice": "Mace-Nutmeg",
+    "tableIndex": 5,
+    "tableColumns": [0,1,8]
+  },
+
+  "cinnomon": {
+    "folderpath": "./data/Cinnamon/",
+    "spice": "Cinnamon",
+    "tableIndex": 6,
+    "tableColumns": [0,1,2]
+  },
+
+  "goraka": {
+    "folderpath": "./data/Goraka/",
+    "spice": "Goraka",
+    "tableIndex": 9,
+    "tableColumns": [0,1,2]
+  },
+
+  "ginger": {
+    "folderpath": "./data/Ginger/",
+    "spice": "Ginger",
+    "tableIndex": 9,
+    "tableColumns": [0,1,4]
+  },
+
+  "turmeric": {
+    "folderpath": "./data/Turmeric/",
+    "spice": "Turmeric",
+    "tableIndex": 9,
+    "tableColumns": [0,1,8]
+  },
+
+  "vanila": {
+    "folderpath": "./data/Vanila/",
+    "spice": "Vanila",
+    "tableIndex": 9,
+    "tableColumns": [0,1,10]
   }
+
 }
